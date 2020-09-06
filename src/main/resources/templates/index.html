@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments.html :: head">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+    .container{
+    max-width : 100%;
+    }
+
+    </style>
+</head>
+<body class="bg-light">
+<nav th:replace="fragments.html :: navbar"></nav>
+<div class="jumbotron">
+    <h1 class="display-4">Hello, ZOO!</h1>
+    <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to
+        featured content or information.</p>
+    <hr class="my-4">
+    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+    <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+</div>
+<div class="container">
+
+    <div class="row pt-4 justify-content-center">
+        <div class="col-8 card-deck">
+            <h3>진행 중인 이벤트 <span><button type="button" class="btn btn-outline-primary">더보기</button></span></h3>
+        </div>
+    </div>
+    <div class="row pt-4 justify-content-center">
+        <div class="col-8 card-deck">
+            <div class="card">
+                <img src="/images/WowEvent.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
+                        additional
+                        content. This content is a little bit longer.</p>
+                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="/images/busEvent.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">This card has supporting text below as a natural lead-in to additional
+                        content.</p>
+                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="/images/botEvent.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                        additional
+                        content. This card has even longer content than the first to show that equal height action.</p>
+                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

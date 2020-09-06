@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments.html :: head">
+</head>
+<body class="bg-light">
+<nav th:replace="fragments.html :: navbar"></nav>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>계정 만들기</h2>
+    </div>
+    <div class="row justify-content-center">
+        <form class="needs-validation col-sm-6" th:action="@{/sign-up}" th:object="${signUpForm}" method="post"
+              novalidate>
+            <div class="form-group">
+                <label for="name">이름</label>
+                <input class="form-control" type="text" id="name" th:field="*{name}" aria-describedby="nameHelp"
+                       required minlength="3" maxlength="20" placeholder="이름 입력">
+                <small class="form-text text-muted" id="nameHelp">공백없이 문자와 숫자로만 3자 이상 20자 이내로 입력하세요. 가입후에 변경할 수
+                    있습니다.</small>
+                <small class="invalid-feedback">이름을 입력하세요.</small>
+                <small class="form-text text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Nickname
+                    Error</small>
+            </div>
+            <div class="form-group">
+                <label for="email">이메일</label>
+                <input class="form-control" type="email" id="email" th:field="*{email}" aria-describedby="emailHelp"
+                       required>
+                <small class="form-text text-muted" id="emailHelp">스터디모임은 사용자의 이메일을 공개하지 않습니다.</small>
+                <small class="invalid-feedback">이메일을 입력하세요.</small>
+                <small class="form-text text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email
+                    Error</small>
+            </div>
+            <div class="form-group">
+                <label for="checkPassword">비밀번호(소문자와 숫자 포함 최소 8자)</label>
+                <input class="form-control" type="password" id="checkPassword" th:field="*{checkPassword}"
+                       aria-describedby="checkPasswordHelp" required minlength="8" maxlength="50">
+                <small class="form-text text-muted" id="checkPasswordHelp">8자 이상 50자 이내로 입력하세요. 영문자, 숫자, 특수기호를 사용할 수
+                    있으며 공백은 사용할 수 없습니다.</small>
+                <small class="invalid-feedback">비밀번호를 입력하세요.</small>
+                <small class="form-text text-danger" th:if="${#fields.hasErrors('checkPassword')}"
+                       th:errors="*{checkPassword}">Password Error</small>
+            </div>
+            <div class="form-group">
+                <label for="password">비밀번호 확인</label>
+                <input class="form-control" type="password" id="password" th:field="*{password}"
+                       aria-describedby="passwordHelp" required minlength="8" maxlength="50">
+                <small class="form-text text-muted" id="passwordHelp">8자 이상 50자 이내로 입력하세요. 영문자, 숫자, 특수기호를 사용할 수 있으며
+                    공백은 사용할 수 없습니다.</small>
+                <small class="invalid-feedback">비밀번호를 입력하세요.</small>
+                <small class="form-text text-danger" th:if="${#fields.hasErrors('password')}"
+                       th:errors="*{password}">Password Error</small>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary btn-block" type="submit" aria-describedby="submitHelp">가입하기</button>
+                <small id="submitHelp" class="form-text text-muted">약관에 동의한다면 가입하기.</small>
+            </div>
+        </form>
+    </div>
+</div>
+<footer th:replace="fragments.html :: footer"></footer>
+<script th:replace="fragments.html :: form-validation"></script>
+</body>
+</html>
