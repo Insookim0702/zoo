@@ -9,8 +9,8 @@ import javax.validation.constraints.Pattern;
 @Data
 public class SignUpForm {
     @NotBlank
-    @Length(min = 2, max = 10)
-    @Pattern(regexp = "^[ㄱ-ㅎ가-힣a-zA-Z]$")
+    @Length(min = 2, max = 20)
+    @Pattern(regexp = "^[ㄱ-ㅎ가-힣a-zA-Z]{2,20}$")
     private String name;
 
     @NotBlank
