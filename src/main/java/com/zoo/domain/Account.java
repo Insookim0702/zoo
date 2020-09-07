@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Builder @AllArgsConstructor @NoArgsConstructor
@@ -30,6 +31,12 @@ public class Account {
     private LocalDateTime joinedAt;
 
     private LocalDateTime emailCheckTokenGeneratedAt;
+
+    //참여 이벤트
+    //private Set<Event> event;
+
+    private boolean eventAlarmByWeb;
+    private boolean eventAlarmByEmail;
 
     public void generateEmailCheckToken() {
         this.emailCheckTokenGeneratedAt = LocalDateTime.now();
