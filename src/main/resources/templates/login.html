@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v4.1.1">
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+    <title></title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/sign-in/">
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom styles for this template -->
+    <link href="css/signin.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div th:replace="fragments.html :: navbar"></div>
+<div class="pt-4 justify-content-center" style="margin : auto; width:300px">
+    <div class="text-center">
+        <img class="mb-4" src="images/lion.png" alt="" width="72" height="72">
+        <h1 class="h3 mb-3 font-weight-normal">로그인</h1>
+        <label for="email" class="sr-only">Email address</label>
+    </div>
+
+    <form class="form-signin" th:action="@{/login}" method="post">
+        <label for="email">이메일</label>
+        <input type="email" id="email" class="form-control" required autofocus>
+        <label for="password" class="sr-only">Password</label>
+        <label for="password">비밀번호</label>
+        <input type="password" id="password" class="form-control" required>
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">로그인</button>
+    </form>
+    <p class="mt-5 mb-3 text-muted text-center">&copy; By ZOO .2020</p>
+</div>
+</body>
+</html>
