@@ -27,7 +27,8 @@
 2) git Url과 pc에 프로젝트를 내려받을 경로 지정
 
 3) npm 내려 받기<br>
-터미널에서 `studymoim홈경로/resources/static` 경로로 이동 후, 아래 명령어들을 입력.
+터미널에서 `studymoim홈경로/resources/static` 경로로 이동 후, 아래 명령어를 순서대로 입력합니다.
+    - npm init
     - npm install jquery
     - npm install bootstrap
     - npm install jdenticon
