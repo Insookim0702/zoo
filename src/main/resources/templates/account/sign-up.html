@@ -28,8 +28,7 @@
                        required>
                 <small class="form-text text-muted" id="emailHelp">스터디모임은 사용자의 이메일을 공개하지 않습니다.</small>
                 <small class="invalid-feedback">이메일을 입력하세요.</small>
-                <small class="form-text text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email
-                    Error</small>
+                <small class="form-text text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</small>
             </div>
             <div class="form-group">
                 <label for="checkPassword">비밀번호(소문자와 숫자 포함 최소 8자)</label>
@@ -45,8 +44,6 @@
                 <label for="password">비밀번호 확인</label>
                 <input class="form-control" type="password" id="password" th:field="*{password}"
                        aria-describedby="passwordHelp" required minlength="8" maxlength="50">
-                <small class="form-text text-muted" id="passwordHelp">8자 이상 50자 이내로 입력하세요. 영문자, 숫자, 특수기호를 사용할 수 있으며
-                    공백은 사용할 수 없습니다.</small>
                 <small class="invalid-feedback">비밀번호를 입력하세요.</small>
                 <small class="form-text text-danger" th:if="${#fields.hasErrors('password')}"
                        th:errors="*{password}">Password Error</small>
