@@ -32,8 +32,6 @@
     - npm install jquery
     - npm install bootstrap
     - npm install jdenticon
-    - npm install font-awesome
-    - npm install tagify
     - npm install summernote
 4) 초기 Application.properties
 
