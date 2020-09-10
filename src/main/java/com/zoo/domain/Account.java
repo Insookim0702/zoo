@@ -42,5 +42,18 @@ public class Account {
         this.emailCheckTokenGeneratedAt = LocalDateTime.now();
         this.emailCheckToken = UUID.randomUUID().toString();
     }
+
+    public boolean isValidToken(String token) {
+        return this.getEmailCheckToken().equals(token);
+    }
+
+    public void completeSignUp() {
+        this.emailVerified = true;
+        this.joinedAt = LocalDateTime.now();
+    }
+
+    public boolean canSendConfirmEmail() {
+        return this.emailCheckTokenGeneratedAt.isBefore(LocalDateTime.now().minusHours(1));
+    }
 }
 
