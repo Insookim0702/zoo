@@ -16,6 +16,7 @@ import org.springframework.validation.Errors;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -34,13 +35,14 @@ class AccountControllerTest {
         accountRepository.deleteAll();
     }
 
-    @DisplayName("계정만들기 뷰페이지 테스트")
+    @DisplayName("계정만들기 뷰 페이지 접근 테스트")
     @Test
     void signUpView() throws Exception {
         mockMvc.perform(get("/sign-up"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("account/sign-up"))
-                .andExpect(model().attributeExists("signUpForm"));
+                .andExpect(model().attributeExists("signUpForm"))
+                .andExpect(unauthenticated());
     }
 
     @DisplayName("계정 만들기 submit")
@@ -53,9 +55,11 @@ class AccountControllerTest {
                 .param("email","동물원@email.com")
         .with(csrf()))
         .andExpect(status().is3xxRedirection())
-        .andExpect(redirectedUrl("/"));
+        .andExpect(redirectedUrl("/"))
+        .andExpect(authenticated());
         Account account = accountRepository.findByEmail("동물원@email.com");
         assertNotNull(account);
+        assertFalse(account.getPassword().equals("123123123"));
         assertFalse(account.isEmailVerified());
     }
 
@@ -78,7 +82,8 @@ class AccountControllerTest {
                 .param("email","동물원@email.com")
                 .with(csrf()))
                 .andExpect(status().isOk())
-                .andExpect(view().name("account/sign-up"));
+                .andExpect(view().name("account/sign-up"))
+                .andExpect(unauthenticated());
         Account acc = accountRepository.findByName("동물");
         assertNull(acc);
     }
@@ -97,7 +102,8 @@ class AccountControllerTest {
         mockMvc.perform(get("/recheck-email"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("email"))
-                .andExpect(view().name("account/recheck-email"));
+                .andExpect(view().name("account/recheck-email"))
+                .andExpect(authenticated());
     }
 
     @DisplayName("[성공]이메일 재인증 요청")
