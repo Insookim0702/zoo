@@ -38,7 +38,8 @@ public class AccountService implements UserDetailsService {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setSubject("동물원증 예약 시스템, 회원가입 이메일 인증");
         simpleMailMessage.setTo(account.getEmail());
-        account.getEmailCheckTokenGeneratedAt();
+        account.getEmailCheckTokenGeneratedAt(); //이걸 해야, 이메일 재인증 요청을 하면, 토큰 생성 시간이 최신으로 변경됨.
+        accountRepository.save(account);
         simpleMailMessage.setText("/check-email-token?token="+account.getEmailCheckToken()+"&email="+account.getEmail());
         javaMailSender.send(simpleMailMessage);
     }
