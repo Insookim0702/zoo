@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments.html :: head"></head>
+<body class="bg-light">
+    <div th:replace="fragments.html :: navbar"></div>
+    <div class="py-5 text-center" role="alert" th:if="${oneHourError != null}">
+        <p class="lead">동물원 이메일 확인</p>
+        <p th:text="${email}"></p>
+        <h2 class="alert alert-danger alert-heading">이메일 인증 재요청은 1시간마다 할 수 있습니다.</h2>
+        인증을 요청한 마지막 일/시/분/초 : <span th:text="${lastRequestTime}"></span>
+    </div>
+    <div class="py-5 text-center" role="alert" th:if="${message != null}">
+        <p class="lead">동물원 이메일 확인</p>
+        <p th:text="${email}"></p>
+        <h2 class="alert alert-danger alert-heading">메일이 발송되었습니다.</h2>
+    </div>
+    <div class="py-5 text-center">
+        <h2><span th:text="${email}">abd@email.com</span> 이메일 인증 재요청</h2>
+        <div>
+            이메일 인증 후 로그인을 해주세요.
+        </div>
+        <div th:if="${oneHourError != null}">
+            <a class="btn btn-primary btn-lg my-5 disabled" tabindex="-1" role="button" >이메일 재요청</a>
+        </div>
+        <div th:if="${oneHourError == null}">
+            <a class="btn btn-primary btn-lg my-5" role="button" th:href="@{'/request-emailValidateToken'}">이메일 재요청</a>
+        </div>
+    </div>
+    <footer th:replace="fragments.html :: footer"></footer>
+</body>
+</html>

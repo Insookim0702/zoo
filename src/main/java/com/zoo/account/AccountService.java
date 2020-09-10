@@ -6,29 +6,41 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.Valid;
-
+import java.util.List;
+@Transactional
 @RequiredArgsConstructor
 @Service
-public class AccountService {
+public class AccountService implements UserDetailsService {
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
     private final JavaMailSender javaMailSender;
-    public void processSignUp(@Valid SignUpForm signUpForm) {
+    public Account processSignUp(@Valid SignUpForm signUpForm) {
         //디비에 저장
         Account account = saveAccountTODB(signUpForm);
-
+        emailAuthSend(account);
+        login(account);
+        return account;
+    }
+    public void emailAuthSend(Account account){
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setSubject("동물원증 예약 시스템, 회원가입 이메일 인증");
         simpleMailMessage.setTo(account.getEmail());
+        account.getEmailCheckTokenGeneratedAt();
         simpleMailMessage.setText("/check-email-token?token="+account.getEmailCheckToken()+"&email="+account.getEmail());
         javaMailSender.send(simpleMailMessage);
-        //이메일 인증 토큰 전송
-        //로그인 처리
     }
 
     private Account saveAccountTODB(@Valid SignUpForm signUpForm) {
@@ -36,5 +48,26 @@ public class AccountService {
         Account account = modelMapper.map(signUpForm, Account.class);
         account.generateEmailCheckToken();
         return accountRepository.save(account);
+    }
+
+    public void login(Account account) {
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+                new UserAccount(account), account.getPassword(), List.of(new SimpleGrantedAuthority("ROLE_USER")));
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        securityContext.setAuthentication(token);
+    }
+
+    public void completeSignUp(Account account) {
+        account.completeSignUp();
+        login(account);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Account account = accountRepository.findByEmail(email);
+        if(account == null){
+            throw new UsernameNotFoundException(email);
+        }
+        return new UserAccount(account);
     }
 }

@@ -12,7 +12,7 @@ import javax.mail.internet.MimeMessage;
 import java.io.InputStream;
 
 @Slf4j
-@Profile("local")
+@Profile({"local","dev"})
 @Component
 public class ConsolMailSender implements JavaMailSender {
     @Override
