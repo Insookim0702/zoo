@@ -104,4 +104,13 @@
   }, false);
 })();
 </script>
+
+
+<div th:fragment="settings-menu(currentMenu)" class="list-group">
+    <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'profile'}? active" th:href="@{/settings/profile}">프로필</a>
+    <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'password'}? active" th:href="@{/settings/password}">비밀번호변경</a>
+    <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'notifications'}? active" th:href="@{/settings/notifications}">알림</a>
+    <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'animal'}? active" th:href="@{/settings/animal}">좋아하는 동물</a>
+    <a class="list-group-item list-group-item-action list-group-item-danger" th:classappend="${currentMenu == 'account'}? active" th:href="@{/settings/account}">계정 설정</a>
+</div>
 </html>
