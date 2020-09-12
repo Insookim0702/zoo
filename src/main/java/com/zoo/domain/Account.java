@@ -21,16 +21,24 @@ public class Account {
 
     private String password;
 
+    @Column(unique = true)
+    private String phone;
+
     // 이메일 인증이 된 계정인지 확인 플레그.
     private boolean emailVerified;
 
     //이메일 인증 시 사용할 토큰 값.
     private String emailCheckToken;
 
+    private String occupation;
+
     //인증을 거치면 그 때, 가입이 된 걸로 즉, 가입날
     private LocalDateTime joinedAt;
 
     private LocalDateTime emailCheckTokenGeneratedAt;
+
+    @ManyToMany
+    private Set<Animal> FavoriteAnimal;
 
     //참여 이벤트
     //private Set<Event> event;
