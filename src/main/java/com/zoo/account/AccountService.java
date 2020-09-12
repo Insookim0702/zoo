@@ -1,7 +1,8 @@
 package com.zoo.account;
 
 import com.zoo.domain.Account;
-import javassist.Loader;
+import com.zoo.settings.PasswordForm;
+import com.zoo.settings.ProfileForm;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.mail.SimpleMailMessage;
@@ -44,7 +45,7 @@ public class AccountService implements UserDetailsService {
         javaMailSender.send(simpleMailMessage);
     }
 
-    private Account saveAccountTODB(@Valid SignUpForm signUpForm) {
+    public Account saveAccountTODB(@Valid SignUpForm signUpForm) {
         signUpForm.setPassword(passwordEncoder.encode(signUpForm.getPassword()));
         Account account = modelMapper.map(signUpForm, Account.class);
         account.generateEmailCheckToken();
@@ -70,5 +71,15 @@ public class AccountService implements UserDetailsService {
             throw new UsernameNotFoundException(email);
         }
         return new UserAccount(account);
+    }
+
+    public void updateProfile(Account account, ProfileForm profileForm) {
+        modelMapper.map(profileForm, account);
+        accountRepository.save(account);
+    }
+
+    public void updatePassword(Account account, PasswordForm passwordForm) {
+        account.setPassword(passwordEncoder.encode(passwordForm.getNewPassword()));
+        accountRepository.save(account);
     }
 }
