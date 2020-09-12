@@ -10,7 +10,7 @@ import javax.validation.constraints.Pattern;
 public class SignUpForm {
     @NotBlank
     @Length(min = 2, max = 20)
-    @Pattern(regexp = "^[ㄱ-ㅎ가-힣a-zA-Z]{2,20}$")
+    @Pattern(regexp = "^[가-힣]{3,10}$")
     private String name;
 
     @NotBlank
