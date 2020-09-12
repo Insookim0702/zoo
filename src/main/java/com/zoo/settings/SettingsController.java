@@ -5,6 +5,7 @@ import com.zoo.account.CurrentUser;
 import com.zoo.domain.Account;
 import com.zoo.settings.Validator.PasswordValidator;
 import com.zoo.settings.Validator.ProfileValidator;
+import com.zoo.settings.form.NotificationsForm;
 import lombok.RequiredArgsConstructor;
 import org.dom4j.rule.Mode;
 import org.modelmapper.ModelMapper;
@@ -27,7 +28,7 @@ public class SettingsController {
 
     static final String SETTINGS_PROFILE = "/settings/profile";
     static final String SETTINGS_PASSWORD = "/settings/password";
-    static final String SETTINGS_ALARM = "/settings/alarm";
+    static final String SETTINGS_ALARM = "/settings/notifications";
     static final String SETTINGS_FAVORITE_ANIMAL = "/settings/animal";
     static final String SETTINGS_ACCOUNT = "/settings/account";
     @InitBinder("passwordForm")
@@ -68,5 +69,28 @@ public class SettingsController {
         accountService.updatePassword(account, passwordForm);
         attributes.addFlashAttribute("message","비밀번호가 성공적으로 변경되었습니다.");
         return "redirect:"+ SETTINGS_PASSWORD;
+    }
+
+    @GetMapping(SETTINGS_ALARM)
+    public String settingsAlarm(@CurrentUser Account account, Model model){
+        model.addAttribute(account);
+        NotificationsForm notificationsForm = new NotificationsForm();
+        modelMapper.map(account, notificationsForm);
+        model.addAttribute(notificationsForm);
+        return SETTINGS_ALARM;
+    }
+
+    @PostMapping(SETTINGS_ALARM)
+    public String updateAlarm(@CurrentUser Account account, NotificationsForm notificationsForm, RedirectAttributes attributes){
+        accountService.updateAlarm(account, notificationsForm);
+        attributes.addFlashAttribute("message","알람 설정이 변경되었습니다.");
+        return "redirect:"+SETTINGS_ALARM;
+    }
+
+    @GetMapping(SETTINGS_ACCOUNT)
+    public String settingsAccount(@CurrentUser Account account, Model model){
+        model.addAttribute("passwordForm", new PasswordForm());
+        model.addAttribute(account);
+        return SETTINGS_ACCOUNT;
     }
 }
