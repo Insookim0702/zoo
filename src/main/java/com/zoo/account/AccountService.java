@@ -3,6 +3,7 @@ package com.zoo.account;
 import com.zoo.domain.Account;
 import com.zoo.settings.PasswordForm;
 import com.zoo.settings.ProfileForm;
+import com.zoo.settings.form.NotificationsForm;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.mail.SimpleMailMessage;
@@ -80,6 +81,14 @@ public class AccountService implements UserDetailsService {
 
     public void updatePassword(Account account, PasswordForm passwordForm) {
         account.setPassword(passwordEncoder.encode(passwordForm.getNewPassword()));
+        accountRepository.save(account);
+    }
+
+    public void updateAlarm(Account account, NotificationsForm notificationsForm) {
+        //Account persistentAccount = accountRepository.findByEmail(account.getEmail());
+        //persistentAccount.setEventAlarmByEmail(notificationsForm.isEventAlarmByEmail());
+        //persistentAccount.setEventAlarmByWeb(notificationsForm.isEventAlarmByWeb());
+        modelMapper.map(notificationsForm, account);
         accountRepository.save(account);
     }
 }
