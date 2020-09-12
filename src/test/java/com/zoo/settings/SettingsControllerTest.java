@@ -2,6 +2,7 @@ package com.zoo.settings;
 
 import com.zoo.WithAccount;
 import com.zoo.account.AccountRepository;
+import com.zoo.domain.Account;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -53,6 +54,29 @@ class SettingsControllerTest {
                 .andExpect(authenticated());
     }
 
+    @DisplayName("알람 설정 뷰")
+    @WithAccount("동물원@email.com")
+    @Test
+    void 뷰테스트_알람설정() throws Exception {
+        mockMvc.perform(get(SettingsController.SETTINGS_ALARM))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("account"))
+                .andExpect(model().attributeExists("notificationsForm"))
+                .andExpect(view().name(SettingsController.SETTINGS_ALARM))
+                .andExpect(authenticated());
+    }
+
+    @DisplayName("계정 설정 뷰")
+    @WithAccount("동물원@email.com")
+    @Test
+    void 뷰테스트_계정설정() throws Exception {
+        mockMvc.perform(get(SettingsController.SETTINGS_ACCOUNT))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("account"))
+                .andExpect(view().name(SettingsController.SETTINGS_ACCOUNT))
+                .andExpect(authenticated());
+    }
+
     @DisplayName("프로필설정변경요청")
     @WithAccount("동물원@email.com")
     @Test
@@ -90,5 +114,24 @@ class SettingsControllerTest {
                 .andExpect(model().attributeExists("message"))
                 .andExpect(model().hasErrors())
                 .andExpect(view().name(SettingsController.SETTINGS_PASSWORD));
+    }
+
+    @DisplayName("알람설정변경요청")
+    @WithAccount("동물원@email.com")
+    @Test
+    void 알람설정변경요청() throws Exception {
+        Account oldAccount = accountRepository.findByEmail("동물원@email.com");
+        assertFalse(oldAccount.isEventAlarmByEmail());
+        assertFalse(oldAccount.isEventAlarmByWeb());
+        mockMvc.perform(post(SettingsController.SETTINGS_ALARM)
+                .param("eventAlarmByWeb", String.valueOf(true))
+                .param("eventAlarmByEmail", String.valueOf(true))
+                .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(flash().attributeExists("message"))
+                .andExpect(redirectedUrl(SettingsController.SETTINGS_ALARM));
+        Account updateAccount = accountRepository.findByEmail("동물원@email.com");
+        assertTrue(updateAccount.isEventAlarmByEmail());
+        assertTrue(updateAccount.isEventAlarmByWeb());
     }
 }
