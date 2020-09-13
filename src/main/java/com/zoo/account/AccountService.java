@@ -1,8 +1,11 @@
 package com.zoo.account;
 
 import com.zoo.domain.Account;
+import com.zoo.domain.Animal;
+import com.zoo.settings.AnimalRepository;
 import com.zoo.settings.PasswordForm;
 import com.zoo.settings.ProfileForm;
+import com.zoo.settings.form.AnimalForm;
 import com.zoo.settings.form.NotificationsForm;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -21,11 +24,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
 @Transactional
 @RequiredArgsConstructor
 @Service
 public class AccountService implements UserDetailsService {
     private final AccountRepository accountRepository;
+    private final AnimalRepository animalRepository;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
     private final JavaMailSender javaMailSender;
@@ -90,5 +97,26 @@ public class AccountService implements UserDetailsService {
         //persistentAccount.setEventAlarmByWeb(notificationsForm.isEventAlarmByWeb());
         modelMapper.map(notificationsForm, account);
         accountRepository.save(account);
+    }
+
+    public void addAnimal(Account account, String animalName) {
+        Animal animal = animalRepository.findByName(animalName);
+        if(animal == null){
+            animalRepository.save(Animal.builder().name(animalName).build());
+        }
+        Account persistAccount = accountRepository.findByEmail(account.getEmail());
+        persistAccount.getFavoriteAnimal().add(animal);
+        accountRepository.save(persistAccount);
+    }
+
+    public void removeAnimal(Account account, String animalName) {
+        Account persistentAccount = accountRepository.findByEmail(account.getEmail());
+        Animal animal = animalRepository.findByName(animalName);
+        persistentAccount.getFavoriteAnimal().remove(animal);
+    }
+
+    public Set<Animal> getFavoriteAnimal(Account account) {
+        Account persistentAccount = accountRepository.findByEmail(account.getEmail());
+        return persistentAccount.getFavoriteAnimal();
     }
 }
