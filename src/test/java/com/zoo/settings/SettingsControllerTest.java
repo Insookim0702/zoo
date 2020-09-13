@@ -66,6 +66,17 @@ class SettingsControllerTest {
                 .andExpect(authenticated());
     }
 
+    @DisplayName("동물 설정 뷰")
+    @WithAccount("동물원@email.com")
+    @Test
+    void 뷰테스트_동물_설정() throws Exception {
+        mockMvc.perform(get(SettingsController.SETTINGS_FAVORITE_ANIMAL))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("account"))
+                .andExpect(view().name(SettingsController.SETTINGS_FAVORITE_ANIMAL))
+                .andExpect(authenticated());
+    }
+
     @DisplayName("계정 설정 뷰")
     @WithAccount("동물원@email.com")
     @Test
