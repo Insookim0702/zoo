@@ -3,22 +3,27 @@ package com.zoo.settings;
 import com.zoo.account.AccountService;
 import com.zoo.account.CurrentUser;
 import com.zoo.domain.Account;
+import com.zoo.domain.Animal;
 import com.zoo.settings.Validator.PasswordValidator;
 import com.zoo.settings.Validator.ProfileValidator;
+import com.zoo.settings.form.AnimalForm;
 import com.zoo.settings.form.NotificationsForm;
 import lombok.RequiredArgsConstructor;
 import org.dom4j.rule.Mode;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Controller
 public class SettingsController {
@@ -92,5 +97,27 @@ public class SettingsController {
         model.addAttribute("passwordForm", new PasswordForm());
         model.addAttribute(account);
         return SETTINGS_ACCOUNT;
+    }
+
+    @GetMapping(SETTINGS_FAVORITE_ANIMAL)
+    public String settingsAnimal(@CurrentUser Account account, Model model){
+        List<String> favoriteAnimal = accountService.getFavoriteAnimal(account).stream().map(Animal::getName).collect(Collectors.toList());
+        model.addAttribute("favoriteAnimal", favoriteAnimal);
+        model.addAttribute(account);
+        return SETTINGS_FAVORITE_ANIMAL;
+    }
+
+    @ResponseBody
+    @PostMapping(SETTINGS_FAVORITE_ANIMAL+"/add")
+    public ResponseEntity addAnimal(@CurrentUser Account account, @RequestBody AnimalForm animalForm){
+        accountService.addAnimal(account, animalForm.getAnimalName());
+        return ResponseEntity.ok().build();
+    }
+
+    @ResponseBody
+    @PostMapping(SETTINGS_FAVORITE_ANIMAL+"/remove")
+    public ResponseEntity removeAnimal(@CurrentUser Account account, @RequestBody AnimalForm animalForm){
+        accountService.removeAnimal(account, animalForm.getAnimalName());
+        return ResponseEntity.ok().build();
     }
 }
