@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments.html :: head"></head>
+<style>
+    .tagify__tag-text{
+        font-family:Russo one;
+    }
+
+</style>
+<body class="bg-light">
+<nav th:replace="fragments.html :: navbar"></nav>
+<div class="container">
+    <div class="row mt-5 justify-content-center">
+        <div class="col-2">
+            <div th:replace="fragments.html :: settings-menu('animal')"></div>
+        </div>
+        <div class="col-8">
+            <div class="row">
+                <h2 class="col-12">관심동물 설정</h2>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12">
+                    <div class="alert alert-primary" role="alert">
+                        관심동물을 입력하세요.
+                    </div>
+                    <label for="animal">관심 동물</label>
+                    <input type="text" class="tagify-outside" id="animal" name="animal" th:value="${#strings.listJoin(favoriteAnimal, ',')}"
+                           aria-describedby="animalHelp" placeholder="관심주제" required>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="fragments.html :: footer"></footer>
+</div>
+<script src="/node_modules/@yaireo/tagify/dist/tagify.min.js"></script>
+<script type="application/javascript" th:inline="javascript">
+    $(function () {
+        var token = /*[[${_csrf.token}]]*/ null;
+        var header = /*[[${_csrf.headerName}]]*/ null;
+        $(document).ajaxSend(function(e, xhr, options) {
+	        xhr.setRequestHeader(header, token);
+        });
+    });
+</script>
+<script type="application/javascript">
+    $(function() {
+        function animalRequest(url, animalName) {
+            $.ajax({
+                dataType: "json",
+                autocomplete: {
+                    enabled: true,
+                    rightKey: true,
+                },
+                contentType: "application/json; charset=utf-8",
+                method: "POST",
+                url: "/settings/animal" + url,
+                data: JSON.stringify({'animalName': animalName})
+            }).done(function (data, status) {
+                console.log("${data} and status is ${status}");
+            });
+        }
+
+    function onAdd(e){
+        animalRequest("/add", e.detail.data.value);
+    }
+
+    function removeAdd(e){
+        animalRequest("/remove", e.detail.data.value);
+    }
+
+    var tagInput = document.querySelector(" #animal");
+        var tagify = new Tagify(tagInput, {
+            pattern: /^.{0,20}$/,
+            dropdown : {
+                enabled: 1, // suggest tags after a single character input
+            } // map tags
+        });
+
+        tagify.on("add", onAdd);
+        tagify.on("remove", onRemove);
+
+        // add a class to Tagify's input element
+        tagify.DOM.input.classList.add('form-control');
+        // re-place Tagify's input element outside of the  element (tagify.DOM.scope), just before it
+        tagify.DOM.scope.parentNode.insertBefore(tagify.DOM.input, tagify.DOM.scope);
+    });
+</script>
+
+</body>
+</html>
