@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments.html :: head"></head>
+<body class="bg-light">
+<div th:replace="fragments.html :: navbar"></div>
+<main role="main" class="container">
+    <div class="d-flex align-items-center p-3 my-3 bg-purple rounded shadow-sm">
+        <img class="mr-3" src="/images/zooicon.png" alt="" width="48" height="48">
+        <div class="lh-100">
+            <h3 class="mb-0 lh-100">동물 현황</h3><span><small>Since 2020</small></span>
+        </div>
+    </div>
+    <div class="d-flex align-items-center p-3 my-3 bg-purple rounded shadow-sm text-center">
+        <div class="col-xl-4 themed-grid-col py-2 mr-1" style="border :1px solid #ccc">포유류</div>
+        <div class="col-xl-4 themed-grid-col py-2" style="border :1px solid #ccc">조류</div>
+        <div class="col-xl-4 themed-grid-col py-2 ml-1" style="border :1px solid #ccc">파충류</div>
+    </div>
+
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <label class="btn btn-primary active">
+            <input type="radio" name="options" id="option1" checked> 포유류
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="options" id="option2"> 조류
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="options" id="option3"> 파충류
+        </label>
+    </div>
+    <div class="d-flex align-items-center p-3 my-3 bg-purple rounded shadow-sm">
+        <div class="lh-100">
+            <h3 class="mb-0 lh-100">동물 현황</h3><span><small>Since 2020</small></span>
+        </div>
+    </div>
+    <div class="my-3 p-3 bg-white rounded shadow-sm">
+        <ul class="list-unstyled">
+            <li class="media p-3" style="border-bottom:1px dotted #ccc;">
+                <img src="..." class="mr-3" alt="..." width="205" height="140">
+                <div class="media-body">
+                    <h5 class="mt-0 mb-1">List-based media object</h5>
+                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras
+                    purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi
+                    vulputate fringilla. Donec lacinia congue felis in faucibus.
+                </div>
+            </li>
+            <li class="media p-3" style="border-bottom:1px dotted #ccc;">
+                <img src="..." class="mr-3" alt="..." width="205" height="140">
+                <div class="media-body">
+                    <h5 class="mt-0 mb-3" id="name">코끼리</h5>
+                    현재 포유류와 다른 동물들을 통틀어 지상에서는 가장 큰 동물이다.[11] 아시아코끼리는 평균 2.7m, 아프리카코끼리는 평균 3.3m 정도의 높이이며, 몸길이는 아시아코끼리는
+                    5m~7m, 아프리카코끼리는 5.4m~7.5m이다. 성체 코끼리는 무게가 2t~6[12]t가량.
+                    이 수치는 다른 대형 육상동물인 기린이나 하마, 심지어 코뿔소보다도 한참 더 무거운 수치이다.[13] 몇 마리에서 몇십 마리 정도로 무리를 지어서 다니며, 연령이 높은
+                    암컷(메이트리악)이 우두머리 역할을 맡는다. 무리를 이룬 동물이니만큼 조직력도 뛰어나다.
+                </div>
+            </li>
+            <li class="media p-3" style="border-bottom:1px dotted #ccc;">
+                <img src="..." class="mr-3" alt="..." width="205" height="140">
+                <div class="media-body">
+                    <h5 class="mt-0 mb-1">List-based media object</h5>
+                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras
+                    purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi
+                    vulputate fringilla. Donec lacinia congue felis in faucibus.
+                </div>
+            </li>
+        </ul>
+    </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination  justify-content-center">
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item active"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</main>
+</body>
+</html>
