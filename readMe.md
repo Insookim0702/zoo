@@ -31,6 +31,7 @@
     - npm init
     - npm install jquery
     - npm install bootstrap
+    - npm install @yaireo/tagify
     - npm install jdenticon
     - npm install summernote
 4) 초기 Application.properties
